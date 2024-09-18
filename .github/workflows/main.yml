@@ -8,12 +8,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    # services:
-    #   redis:
-    #     image: redis:7.0.15-alpine3.20
-    #     ports:
-    #       - 6379:6379
+    services:
+      redis:
+        image: redis:7.0.15-alpine3.20
+        ports:
+          - 6379:6379
     
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -29,7 +30,8 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-
+    - name: Check Redis logs
+      run: docker logs $(docker ps -q --filter "name=redis")
 
     - name: Set up Node.js
       uses: actions/setup-node@v2

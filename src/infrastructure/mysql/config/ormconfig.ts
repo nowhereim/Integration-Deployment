@@ -16,7 +16,8 @@ export const typeormConfig: TypeOrmModuleOptions = {
   logging: 'all',
   timezone: 'Z',
 };
-
+console.log('DB DB_TYPE:', process.env.DB_TYPE);
+console.log('DB Port:', process.env.DB_PORT);
 export const dataSourceOptions: DataSourceOptions =
   typeormConfig as DataSourceOptions;
 

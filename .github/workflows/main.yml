@@ -29,6 +29,9 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    - name: Print environment variables
+      run: env
+
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:

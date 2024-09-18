@@ -58,7 +58,7 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 docker-compose.yml
 filebeat.yml
 
-*.yml
+prometheus.yml
 dockerfile
 dockerfile.prometheus
 task-def.json

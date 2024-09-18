@@ -1,0 +1,68 @@
+name: Deploy to AWS ECR and ECS
+
+on:
+  push:
+    branches: [main]  # 원하는 브랜치로 설정하세요
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis:7.0.15-alpine3.20
+        ports:
+          - 6379:6379
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Log in to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '22.4.1'  # 사용 중인 Node.js 버전에 맞게 수정
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      env:
+        DB_TYPE: ${{ secrets.DB_TYPE }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_DATABASE: ${{ secrets.DB_DATABASE }}
+        HOOK_URL: ${{ secrets.HOOK_URL }}
+        REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+        REDIS_HOST: ${{ secrets.REDIS_HOST }}
+        REDIS_PORT: ${{ secrets.REDIS_PORT }}
+        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+      run: npm test
+
+    - name: Build Docker image
+      run: |
+        docker build -t my-nestjs-app:${{ github.sha }} .
+        docker tag my-nestjs-app:${{ github.sha }} ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+
+    - name: Push to Amazon ECR
+      run: |
+        docker push ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+
+    - name: Update ECS service
+      run: |
+        aws ecs update-service \
+          --cluster cicdtest \
+          --service test1 \
+          --force-new-deployment
+
+
+
+
+
+

@@ -32,7 +32,7 @@ jobs:
 
     - name: Test RDS connection
       run: |
-        mysql -h $DB_HOST -P $DB_PORT -u $DB_USERNAME -p$DB_PASSWORD -e "SHOW DATABASES;"
+        mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -e "SHOW DATABASES;"
 
     - name: Set up Node.js
       uses: actions/setup-node@v2

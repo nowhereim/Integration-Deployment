@@ -18,8 +18,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Print environment variables
-      run: env
+    - name: Print specific environment variables
+      run: |
+        echo "DB_USERNAME: $DB_USERNAME"
+        echo "DB_PORT: $DB_PORT"
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1

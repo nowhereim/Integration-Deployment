@@ -30,16 +30,6 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Print environment variables
-      run: |
-        echo "DB_HOST: $DB_HOST"
-        echo "DB_PORT: $DB_PORT"
-        echo "DB_USERNAME: $DB_USERNAME"
-
-    - name: Test RDS connection
-      run: |
-        PORT=${DB_PORT:-3306}
-        mysql -h "$DB_HOST" -P "$PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -e "SHOW DATABASES;"
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
@@ -62,7 +52,11 @@ jobs:
         REDIS_HOST: ${{ secrets.REDIS_HOST }}
         REDIS_PORT: ${{ secrets.REDIS_PORT }}
       run: |
-        npm run start:dev
+        echo "DB_HOST: $DB_HOST"
+        echo "DB_PORT: $DB_PORT"
+        echo "DB_USERNAME: $DB_USERNAME"
+        PORT=${DB_PORT:-3306}
+        mysql -h "$DB_HOST" -P "$PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -e "SHOW DATABASES;"
 
     - name: Build Docker image
       run: |

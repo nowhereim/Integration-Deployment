@@ -52,11 +52,11 @@ jobs:
         REDIS_HOST: ${{ secrets.REDIS_HOST }}
         REDIS_PORT: ${{ secrets.REDIS_PORT }}
       run: |
-            echo "DB_HOST=${DB_TYPE}" >> env_vars.txt
-            echo "DB_PORT=${DB_PORT}" >> env_vars.txt
+
     
-    - name: Display environment variables from file
-      run: cat env_vars.txt
+    - name: Test database connection
+      run: |  
+        nc -zv $DB_HOST $DB_PORT
 
     - name: Build Docker image
       run: |

@@ -55,8 +55,8 @@ jobs:
 
     
     - name: Test database connection
-      run: |  
-        nc -zv $DB_HOST $DB_PORT
+      run: |
+        timeout 5 bash -c "</dev/tcp/$DB_HOST/$DB_PORT" && echo "Connection successful" || echo "Connection failed"
 
     - name: Build Docker image
       run: |

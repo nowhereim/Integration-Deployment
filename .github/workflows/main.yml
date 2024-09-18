@@ -8,11 +8,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    services:
-      redis:
-        image: redis:7.0.15-alpine3.20
-        ports:
-          - 6379:6379
+    # services:
+    #   redis:
+    #     image: redis:7.0.15-alpine3.20
+    #     ports:
+    #       - 6379:6379
     
     steps:
     - name: Checkout code

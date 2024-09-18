@@ -9,7 +9,7 @@ import { UserModule } from './modules/user.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { LoggerMiddleware } from './presentation/shared/middleware/http-log.middleware';
 import { CustomLogger } from './common/logger/logger';
-import { RedisModule } from './modules/redis.module';
+// import { RedisModule } from './modules/redis.module';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { MetricsModule } from 'src/modules/metrics.module';
 import { MetricsMiddleware } from './presentation/shared/middleware/metrics';
@@ -28,7 +28,7 @@ import { SeederService } from './seed/seeder.service';
     QueueModule,
     ReservationModule,
     UserModule,
-    RedisModule,
+    // RedisModule,
   ],
   controllers: [],
   providers: [CustomLogger, SeederService],

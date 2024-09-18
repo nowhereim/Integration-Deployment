@@ -49,8 +49,8 @@ jobs:
         DB_DATABASE: ${{ secrets.DB_DATABASE }}
         HOOK_URL: ${{ secrets.HOOK_URL }}
         # REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-        # REDIS_HOST: ${{ secrets.REDIS_HOST }}
-        # REDIS_PORT: ${{ secrets.REDIS_PORT }}
+        REDIS_HOST: ${{ secrets.REDIS_HOST }}
+        REDIS_PORT: ${{ secrets.REDIS_PORT }}
       run: |
         npm run start:dev
 

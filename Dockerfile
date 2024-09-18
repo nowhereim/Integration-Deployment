@@ -13,8 +13,6 @@ RUN npm install
 # Copy application code
 COPY . .
 
-# Copy Prometheus configuration file
-COPY prometheus.yml /etc/prometheus/prometheus.yml
 
 # Build the application
 RUN npm run build

@@ -22,6 +22,7 @@ jobs:
       run: |
         echo "DB_USERNAME: $DB_USERNAME"
         echo "DB_PORT: $DB_PORT"
+        echo "AWS_REGION: $AWS_REGION"
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1

@@ -59,6 +59,6 @@ docker-compose.yml
 filebeat.yml
 
 prometheus.yml
-dockerfile
+# dockerfile
 dockerfile.prometheus
 task-def.json

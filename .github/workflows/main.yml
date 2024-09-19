@@ -52,8 +52,7 @@ jobs:
         REDIS_HOST: ${{ secrets.REDIS_HOST }}
         REDIS_PORT: ${{ secrets.REDIS_PORT }}
       run: |
-        ping -c 4 "$DB_HOST"
-        timeout 5 telnet "$DB_HOST" "$DB_PORT"
+        npm run test
 
     - name: Build Docker image
       run: |

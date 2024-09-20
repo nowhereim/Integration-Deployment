@@ -4,32 +4,61 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from 'src/app.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserFacadeApp } from 'src/application/user/user.facade';
 import { SeederService } from 'src/seed/seeder.service';
+import { GenericContainer, StartedTestContainer } from 'testcontainers';
+import * as path from 'path';
+import { UserModule } from 'src/modules/user.module';
 describe('UserFacade Integration Test', () => {
   let app: INestApplication;
   let userFacadeApp: UserFacadeApp;
   let seederService: SeederService;
+  let container: StartedTestContainer;
   beforeEach(async () => {
+    // MySQL 컨테이너 실행)
+    container = await new GenericContainer('mysql:8.0')
+      .withEnvironment({
+        MYSQL_ROOT_PASSWORD: 'root',
+        MYSQL_DATABASE: 'concert',
+      }) // MYSQL_DATABASE 설정 추가
+      .withExposedPorts(3306)
+      .start();
+
+    const port = container.getMappedPort(3306);
     const module: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [
+        TypeOrmModule.forRootAsync({
+          useFactory: () => ({
+            host: container.getHost(),
+            type: 'mysql',
+            port: port,
+            username: 'root',
+            password: 'root',
+            database: 'concert',
+            entities: [path.join(__dirname, '../../../**/*.entity.ts')],
+            synchronize: true,
+            logging: true,
+          }),
+        }),
+
+        UserModule,
+      ],
+      providers: [SeederService],
     }).compile();
 
     app = module.createNestApplication();
 
     userFacadeApp = module.get<UserFacadeApp>(UserFacadeApp);
     seederService = module.get<SeederService>(SeederService);
-    await seederService.seed();
 
     await app.init();
+    await seederService.seed();
   }, 60000);
 
   afterAll(async () => {
     await app.close();
-    // if (dataSource && dataSource.isInitialized) {
-    //   await dataSource.destroy();
-    // }
+    await container.stop();
   });
 
   describe('캐시 충전', () => {

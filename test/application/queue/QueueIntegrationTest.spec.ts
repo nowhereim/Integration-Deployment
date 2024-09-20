@@ -4,27 +4,24 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from 'src/app.module';
 import { QueueFacadeApp } from 'src/application/queue/queue.facade';
+import { QueueModule } from 'src/modules/queue.module';
 // import { SeederService } from 'src/seed/seeder.service';
 
 describe('QueueFacade Integration Test', () => {
   let app: INestApplication;
   let queueFacadeApp: QueueFacadeApp;
 
-  // let seederService: SeederService;
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [QueueModule],
     }).compile();
 
     queueFacadeApp = module.get<QueueFacadeApp>(QueueFacadeApp);
-    // seederService = module.get<SeederService>(SeederService);
 
     app = module.createNestApplication();
-    // await seederService.seed();
     await app.init();
+    // await seederService.seed();
   });
 
   afterEach(async () => {

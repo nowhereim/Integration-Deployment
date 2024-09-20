@@ -13,7 +13,7 @@ import { RedisQueueRepositoryImplV2 } from 'src/infrastructure/redis/redis-queue
       useFactory: () => {
         return new Redis({
           host: process.env.REDIS_HOST,
-          port: parseInt(process.env.REDIS_PORT),
+          port: parseInt(process.env.REDIS_PORT) || 6379,
         });
       },
     },

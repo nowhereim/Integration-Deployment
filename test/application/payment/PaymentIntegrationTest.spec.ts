@@ -16,45 +16,49 @@ describe('PaymentFacade Integration Test', () => {
   let container: StartedTestContainer;
 
   beforeAll(async () => {
-    // MySQL 컨테이너 실행)
-    container = await new GenericContainer('mysql:8.0')
-      .withEnvironment({
-        MYSQL_ROOT_PASSWORD: 'root',
-        MYSQL_DATABASE: 'concert',
-      }) // MYSQL_DATABASE 설정 추가
-      .withExposedPorts(3306)
-      .withWaitStrategy(Wait.forLogMessage('mysqld: ready for connections'))
-      .start();
+    try {
+      // MySQL 컨테이너 실행)
+      container = await new GenericContainer('mysql:8.0')
+        .withEnvironment({
+          MYSQL_ROOT_PASSWORD: 'root',
+          MYSQL_DATABASE: 'concert',
+        }) // MYSQL_DATABASE 설정 추가
+        .withExposedPorts(3306)
+        .withWaitStrategy(Wait.forLogMessage('mysqld: ready for connections'))
+        .start();
 
-    const port = container.getMappedPort(3306);
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        TypeOrmModule.forRootAsync({
-          useFactory: () => ({
-            host: container.getHost(),
-            type: 'mysql',
-            port: port,
-            username: 'root',
-            password: 'root',
-            database: 'concert',
-            entities: [path.join(__dirname, '../../../**/*.entity.ts')],
-            synchronize: true,
-            // logging: true,
+      const port = container.getMappedPort(3306);
+      const module: TestingModule = await Test.createTestingModule({
+        imports: [
+          TypeOrmModule.forRootAsync({
+            useFactory: () => ({
+              host: container.getHost(),
+              type: 'mysql',
+              port: port,
+              username: 'root',
+              password: 'root',
+              database: 'concert',
+              entities: [path.join(__dirname, '../../../**/*.entity.ts')],
+              synchronize: true,
+              // logging: true,
+            }),
           }),
-        }),
 
-        PaymentModule,
-      ],
-      providers: [SeederService],
-    }).compile();
+          PaymentModule,
+        ],
+        providers: [SeederService],
+      }).compile();
 
-    app = module.createNestApplication();
+      app = module.createNestApplication();
 
-    paymentFacade = module.get<PaymentFacadeApp>(PaymentFacadeApp);
-    seederService = module.get<SeederService>(SeederService);
+      paymentFacade = module.get<PaymentFacadeApp>(PaymentFacadeApp);
+      seederService = module.get<SeederService>(SeederService);
 
-    await app.init();
-    await seederService.seed();
+      await app.init();
+      await seederService.seed();
+    } catch (err) {
+      console.log(err);
+    }
   }, 60000);
 
   afterAll(async () => {
@@ -62,30 +66,30 @@ describe('PaymentFacade Integration Test', () => {
     await container.stop();
   });
   describe('결제 생성', () => {
-    // it('결제 생성 성공', async () => {
-    //   const userId = 1;
-    //   const seatId = 1;
-    //   // const concertId = 1;
-    //   // await reservationFacade.registerReservation({
-    //   //   userId,
-    //   //   seatId,
-    //   //   concertId,
-    //   // });
-    //   const payment = await paymentFacade.pay({
-    //     userId,
-    //     seatId,
-    //   });
-    //   expect(payment).toEqual({
-    //     id: expect.any(Number),
-    //     userId,
-    //     status: 'PENDING',
-    //     seatNumber: expect.any(Number),
-    //     openAt: expect.any(Date),
-    //     concertName: expect.any(String),
-    //     closeAt: expect.any(Date),
-    //     totalAmount: expect.any(Number),
-    //   });
-    // }, 60000);
+    it('결제 생성 성공', async () => {
+      const userId = 1;
+      const seatId = 1;
+      // const concertId = 1;
+      // await reservationFacade.registerReservation({
+      //   userId,
+      //   seatId,
+      //   concertId,
+      // });
+      const payment = await paymentFacade.pay({
+        userId,
+        seatId,
+      });
+      expect(payment).toEqual({
+        id: expect.any(Number),
+        userId,
+        status: 'PENDING',
+        seatNumber: expect.any(Number),
+        openAt: expect.any(Date),
+        concertName: expect.any(String),
+        closeAt: expect.any(Date),
+        totalAmount: expect.any(Number),
+      });
+    }, 60000);
     it('이미 결제된 좌석에 대한 결제 시도 실패', async () => {
       const userId = 1;
       const seatId = 1;

@@ -22,9 +22,6 @@ describe('QueueFacade Integration Test', () => {
     const redisHost = redisContainer.getHost();
     const redisPort = redisContainer.getMappedPort(6379);
 
-    console.log(`Redis started at ${redisHost}:${redisPort}`);
-    console.log(await redisContainer.logs());
-
     process.env.REDIS_HOST = redisHost;
     process.env.REDIS_PORT = redisPort.toString();
 
@@ -39,13 +36,6 @@ describe('QueueFacade Integration Test', () => {
     queueFacadeApp = module.get<QueueFacadeApp>(QueueFacadeApp);
 
     redisClient = module.get<Redis>('REDIS_CLIENT');
-    try {
-      const pong = await redisClient.ping();
-      console.log('Redis PONG:', pong);
-    } catch (error) {
-      console.error('Redis 연결 에러:', error);
-      throw error; // 테스트를 실패하게 함
-    }
   }, 60000);
 
   afterAll(async () => {

@@ -71,12 +71,12 @@ describe('PaymentFacade Integration Test', () => {
       const userId = 1;
       const seatId = 1;
       const concertId = 1;
-      const amount = 10000;
+      // const amount = 10000;
       // await queueFacadeApp.registerQueue({ userId });/
-      await userFacadeApp.cashCharge({
-        userId,
-        amount,
-      });
+      // await userFacadeApp.cashCharge({
+      //   userId,
+      //   amount,
+      // });
       await reservationFacade.registerReservation({
         userId,
         seatId,

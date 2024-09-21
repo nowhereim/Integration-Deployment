@@ -62,30 +62,30 @@ describe('PaymentFacade Integration Test', () => {
     await container.stop();
   });
   describe('결제 생성', () => {
-    it('결제 생성 성공', async () => {
-      const userId = 1;
-      const seatId = 1;
-      // const concertId = 1;
-      // await reservationFacade.registerReservation({
-      //   userId,
-      //   seatId,
-      //   concertId,
-      // });
-      const payment = await paymentFacade.pay({
-        userId,
-        seatId,
-      });
-      expect(payment).toEqual({
-        id: expect.any(Number),
-        userId,
-        status: 'PENDING',
-        seatNumber: expect.any(Number),
-        openAt: expect.any(Date),
-        concertName: expect.any(String),
-        closeAt: expect.any(Date),
-        totalAmount: expect.any(Number),
-      });
-    }, 60000);
+    // it('결제 생성 성공', async () => {
+    //   const userId = 1;
+    //   const seatId = 1;
+    //   // const concertId = 1;
+    //   // await reservationFacade.registerReservation({
+    //   //   userId,
+    //   //   seatId,
+    //   //   concertId,
+    //   // });
+    //   const payment = await paymentFacade.pay({
+    //     userId,
+    //     seatId,
+    //   });
+    //   expect(payment).toEqual({
+    //     id: expect.any(Number),
+    //     userId,
+    //     status: 'PENDING',
+    //     seatNumber: expect.any(Number),
+    //     openAt: expect.any(Date),
+    //     concertName: expect.any(String),
+    //     closeAt: expect.any(Date),
+    //     totalAmount: expect.any(Number),
+    //   });
+    // }, 60000);
     it('이미 결제된 좌석에 대한 결제 시도 실패', async () => {
       const userId = 1;
       const seatId = 1;

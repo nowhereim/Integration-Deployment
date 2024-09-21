@@ -1,5 +1,5 @@
 module.exports = {
-  // maxWorkers: 1,
+  maxWorkers: 1,
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '.',
   testEnvironment: 'node',

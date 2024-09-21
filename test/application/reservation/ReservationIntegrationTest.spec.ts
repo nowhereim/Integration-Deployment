@@ -203,11 +203,9 @@ describe('ReservationFacade Integration Test', () => {
       );
       const rejected = results.filter((result) => result.status === 'rejected');
 
-      // 성공한 예약은 한 개, 나머지는 실패해야 함
       expect(fulfilled.length).toBe(1);
       expect(rejected.length).toBe(8);
 
-      // 실패한 이유가 BadRequestException이어야 함
       rejected.forEach((result) => {
         if (result.status === 'rejected') {
           expect(result.reason).toBeInstanceOf(BadRequestException);

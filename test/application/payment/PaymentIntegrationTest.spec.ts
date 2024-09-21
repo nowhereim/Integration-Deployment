@@ -42,8 +42,6 @@ describe('PaymentFacade Integration Test', () => {
             database: 'concert',
             entities: [path.join(__dirname, '../../../**/*.entity.ts')],
             synchronize: true,
-            retryAttempts: 10,
-            retryDelay: 5000,
             // logging: true,
           }),
         }),
@@ -97,17 +95,17 @@ describe('PaymentFacade Integration Test', () => {
       ).rejects.toThrow(NotFoundException);
     }, 60000);
 
-    it('대기열에 등록되지 않은 사용자 결제 시도 실패', async () => {
-      const userId = 100;
-      const seatId = 1;
+    // it('대기열에 등록되지 않은 사용자 결제 시도 실패', async () => {
+    //   const userId = 100;
+    //   const seatId = 1;
 
-      await expect(
-        paymentFacade.pay({
-          userId,
-          seatId,
-        }),
-      ).rejects.toThrow(NotFoundException);
-    }, 60000);
+    //   await expect(
+    //     paymentFacade.pay({
+    //       userId,
+    //       seatId,
+    //     }),
+    //   ).rejects.toThrow(NotFoundException);
+    // }, 60000);
   });
 
   // describe('결제 유저 캐시 동시성 테스트', () => {

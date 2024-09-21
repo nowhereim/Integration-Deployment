@@ -29,7 +29,7 @@ export class SeederService {
         openAt: new Date(new Date().getTime() - 1000 * 60),
         closeAt: new Date(new Date().getTime() + 1000 * 60 * 60 * 60 * 60),
         bookingStartAt: new Date(),
-        bookingEndAt: new Date(new Date().getTime() + 1000 * 60 * 60 * 60),
+        bookingEndAt: new Date(new Date().getTime() + 1000 * 60 * 60 * 60 * 60),
       },
     ];
     const concert = new ConcertEntity({

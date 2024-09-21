@@ -27,7 +27,7 @@ describe('PaymentFacade Integration Test', () => {
         MYSQL_DATABASE: 'concert',
       }) // MYSQL_DATABASE 설정 추가
       .withExposedPorts(3306)
-      .withWaitStrategy(Wait.forLogMessage('mysqld: ready for connections'))
+      .withWaitStrategy(Wait.forLogMessage('ready for connections')) // 정확한 메시지로 변경
       .start();
 
     const port = container.getMappedPort(3306);
@@ -43,6 +43,8 @@ describe('PaymentFacade Integration Test', () => {
             database: 'concert',
             entities: [path.join(__dirname, '../../../**/*.entity.ts')],
             synchronize: true,
+            retryAttempts: 10, // 재시도 횟수 증가
+            retryDelay: 5000, // 재시도 간격을 5초로 설정
             // logging: true,
           }),
         }),

@@ -32,10 +32,6 @@ export class Payment {
   isCompleted(): boolean {
     return this.status === PaymentStatus.COMPLETED;
   }
-
-  releaseEvent(): void {
-    // release event
-  }
 }
 
 export enum PaymentStatus {

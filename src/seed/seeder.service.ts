@@ -5,6 +5,8 @@ import { ConcertScheduleEntity } from 'src/infrastructure/core/concert/entities/
 import { SeatEntity } from 'src/infrastructure/core/concert/entities/seat.entity';
 import { UserEntity } from 'src/infrastructure/core/user/entities/user.entity';
 import { CashEntity } from 'src/infrastructure/core/user/entities/cash.entity';
+import { ReservationEntity } from 'src/infrastructure/core/reservation/reservation.entity';
+import { SeatReservationStatus } from 'src/domain/reservation/seat.reservation';
 
 /**
  * @Note 테스트용 시드 데이터
@@ -54,6 +56,33 @@ export class SeederService {
       }),
     });
 
+    // const reservation = new ReservationEntity({
+    //   id?: number;
+    //   userId: number;
+    //   concertId: number;
+    //   seatId: number;
+    //   status: SeatReservationStatus;
+    //   price: number;
+    //   concertName: string;
+    //   seatNumber: number;
+    //   openAt: Date;
+    //   closeAt: Date;
+    //   deletedAt?: Date;
+    //   createdAt?: Date;
+    // });
+    //위 를 아래와같이 할 수 있다.
+    const reservation = new ReservationEntity({
+      userId: 1,
+      concertId: 1,
+      seatId: 1,
+      status: SeatReservationStatus.PENDING,
+      price: 10000,
+      concertName: '박효신 콘서트',
+      seatNumber: 1,
+      openAt: new Date(),
+      closeAt: new Date(),
+    });
+
     const users = Array.from({ length: 100 }).map((_______, idx) => {
       return new UserEntity({
         name: `user${idx + 1}`,
@@ -64,6 +93,7 @@ export class SeederService {
       });
     });
 
+    await this.entityManager.save(reservation);
     await this.entityManager.save(concert);
     await this.entityManager.save(users);
   }

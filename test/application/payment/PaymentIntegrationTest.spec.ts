@@ -4,20 +4,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 import { PaymentFacadeApp } from 'src/application/payment/payment.facade';
 // import { QueueFacadeApp } from 'src/application/queue/queue.facade';
-import { ReservationFacadeApp } from 'src/application/reservation/reservation.facade';
-import { ConcertModule } from 'src/modules/concert.module';
 // import { UserFacadeApp } from 'src/application/user/user.facade';
 import { PaymentModule } from 'src/modules/payment.module';
-import { ReservationModule } from 'src/modules/reservation.module';
 import { SeederService } from 'src/seed/seeder.service';
 import { GenericContainer, StartedTestContainer, Wait } from 'testcontainers';
 
 describe('PaymentFacade Integration Test', () => {
   let app: INestApplication;
   let paymentFacade: PaymentFacadeApp;
-  let reservationFacade: ReservationFacadeApp;
-  // let userFacadeApp: UserFacadeApp;
-  // let queueFacadeApp: QueueFacadeApp;
   let seederService: SeederService;
   let container: StartedTestContainer;
 
@@ -50,8 +44,6 @@ describe('PaymentFacade Integration Test', () => {
         }),
 
         PaymentModule,
-        ReservationModule,
-        ConcertModule,
       ],
       providers: [SeederService],
     }).compile();
@@ -59,7 +51,6 @@ describe('PaymentFacade Integration Test', () => {
     app = module.createNestApplication();
 
     paymentFacade = module.get<PaymentFacadeApp>(PaymentFacadeApp);
-    reservationFacade = module.get<ReservationFacadeApp>(ReservationFacadeApp);
     seederService = module.get<SeederService>(SeederService);
 
     await app.init();
@@ -74,12 +65,12 @@ describe('PaymentFacade Integration Test', () => {
     it('결제 생성 성공', async () => {
       const userId = 1;
       const seatId = 1;
-      const concertId = 1;
-      await reservationFacade.registerReservation({
-        userId,
-        seatId,
-        concertId,
-      });
+      // const concertId = 1;
+      // await reservationFacade.registerReservation({
+      //   userId,
+      //   seatId,
+      //   concertId,
+      // });
       const payment = await paymentFacade.pay({
         userId,
         seatId,

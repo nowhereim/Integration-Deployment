@@ -42,6 +42,8 @@ describe('PaymentFacade Integration Test', () => {
             database: 'concert',
             entities: [path.join(__dirname, '../../../**/*.entity.ts')],
             synchronize: true,
+            retryAttempts: 10,
+            retryDelay: 5000,
             // logging: true,
           }),
         }),

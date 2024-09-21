@@ -19,7 +19,7 @@ describe('PaymentFacade Integration Test', () => {
   let seederService: SeederService;
   let container: StartedTestContainer;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     // MySQL 컨테이너 실행)
     container = await new GenericContainer('mysql:8.0')
       .withEnvironment({

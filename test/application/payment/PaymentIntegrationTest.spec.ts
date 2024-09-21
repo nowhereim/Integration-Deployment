@@ -7,6 +7,7 @@ import { PaymentFacadeApp } from 'src/application/payment/payment.facade';
 import { ReservationFacadeApp } from 'src/application/reservation/reservation.facade';
 // import { UserFacadeApp } from 'src/application/user/user.facade';
 import { PaymentModule } from 'src/modules/payment.module';
+import { ReservationModule } from 'src/modules/reservation.module';
 import { SeederService } from 'src/seed/seeder.service';
 import { GenericContainer, StartedTestContainer, Wait } from 'testcontainers';
 
@@ -48,6 +49,7 @@ describe('PaymentFacade Integration Test', () => {
         }),
 
         PaymentModule,
+        ReservationModule,
       ],
       providers: [SeederService],
     }).compile();
@@ -114,5 +116,7 @@ describe('PaymentFacade Integration Test', () => {
         }),
       ).rejects.toThrow(NotFoundException);
     }, 60000);
+
+    //완료, 실패 추가
   });
 });

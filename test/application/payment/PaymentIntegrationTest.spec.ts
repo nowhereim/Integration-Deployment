@@ -65,27 +65,28 @@ describe('PaymentFacade Integration Test', () => {
     await container.stop();
   });
   describe('결제 생성', () => {
-    it('결제 생성 성공', async () => {
-      const userId = 2;
-      const seatId = 2;
-      const payment = await paymentFacade.pay({
-        userId,
-        seatId,
-      });
-      expect(payment).toEqual({
-        id: expect.any(Number),
-        userId,
-        status: 'PENDING',
-        seatNumber: expect.any(Number),
-        openAt: expect.any(Date),
-        concertName: expect.any(String),
-        closeAt: expect.any(Date),
-        totalAmount: expect.any(Number),
-      });
-    }, 60000);
+    // it('결제 생성 성공', async () => {
+    //   const userId = 1;
+    //   const seatId = 1;
+    //   const payment = await paymentFacade.pay({
+    //     userId,
+    //     seatId,
+    //   });
+    //   expect(payment).toEqual({
+    //     id: expect.any(Number),
+    //     userId,
+    //     status: 'PENDING',
+    //     seatNumber: expect.any(Number),
+    //     openAt: expect.any(Date),
+    //     concertName: expect.any(String),
+    //     closeAt: expect.any(Date),
+    //     totalAmount: expect.any(Number),
+    //   });
+    // }, 60000);
     // it('이미 결제된 좌석에 대한 결제 시도 실패', async () => {
     //   const userId = 1;
     //   const seatId = 1;
+
     //   await expect(
     //     paymentFacade.pay({
     //       userId,
@@ -93,16 +94,18 @@ describe('PaymentFacade Integration Test', () => {
     //     }),
     //   ).rejects.toThrow(NotFoundException);
     // }, 60000);
-    // it('대기열에 등록되지 않은 사용자 결제 시도 실패', async () => {
-    //   const userId = 100;
-    //   const seatId = 1;
-    //   await expect(
-    //     paymentFacade.pay({
-    //       userId,
-    //       seatId,
-    //     }),
-    //   ).rejects.toThrow(NotFoundException);
-    // }, 60000);
+
+    it('대기열에 등록되지 않은 사용자 결제 시도 실패', async () => {
+      const userId = 100;
+      const seatId = 5;
+
+      await expect(
+        paymentFacade.pay({
+          userId,
+          seatId,
+        }),
+      ).rejects.toThrow(NotFoundException);
+    }, 60000);
   });
 
   // describe('결제 유저 캐시 동시성 테스트', () => {

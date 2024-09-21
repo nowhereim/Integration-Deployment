@@ -86,6 +86,10 @@ describe('PaymentFacade Integration Test', () => {
     it('이미 결제된 좌석에 대한 결제 시도 실패', async () => {
       const userId = 1;
       const seatId = 1;
+      await paymentFacade.pay({
+        userId,
+        seatId,
+      });
 
       // await expect(
       //   paymentFacade.pay({

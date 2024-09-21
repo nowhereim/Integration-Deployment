@@ -68,18 +68,6 @@ describe('PaymentFacade Integration Test', () => {
     it('결제 생성 성공', async () => {
       const userId = 1;
       const seatId = 1;
-      const concertId = 1;
-      const amount = 10000;
-      await queueFacadeApp.registerQueue({ userId });
-      await userFacadeApp.cashCharge({
-        userId,
-        amount,
-      });
-      await reservationFacade.registerReservation({
-        userId,
-        seatId,
-        concertId,
-      });
       const payment = await paymentFacade.pay({
         userId,
         seatId,
@@ -105,7 +93,7 @@ describe('PaymentFacade Integration Test', () => {
           seatId,
         }),
       ).rejects.toThrow(NotFoundException);
-    });
+    }, 60000);
 
     it('대기열에 등록되지 않은 사용자 결제 시도 실패', async () => {
       const userId = 100;

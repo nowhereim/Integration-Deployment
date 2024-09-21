@@ -1,22 +1,18 @@
 name: Production CD Pipeline
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
 
+
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      with:
-        ref: ${{ github.event.pull_request.base.ref }}
-        fetch-depth: 0
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1

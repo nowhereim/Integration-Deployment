@@ -66,8 +66,8 @@ describe('PaymentFacade Integration Test', () => {
   });
   describe('결제 생성', () => {
     it('결제 생성 성공', async () => {
-      const userId = 1;
-      const seatId = 1;
+      const userId = 2;
+      const seatId = 2;
       const payment = await paymentFacade.pay({
         userId,
         seatId,

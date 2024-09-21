@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 import { PaymentFacadeApp } from 'src/application/payment/payment.facade';
+import { PaymentService } from 'src/domain/payment/payment.service';
 // import { QueueFacadeApp } from 'src/application/queue/queue.facade';
 // import { ReservationFacadeApp } from 'src/application/reservation/reservation.facade';
 // import { UserFacadeApp } from 'src/application/user/user.facade';
@@ -18,6 +19,7 @@ describe('PaymentFacade Integration Test', () => {
   // let queueFacadeApp: QueueFacadeApp;
   let seederService: SeederService;
   let container: StartedTestContainer;
+  let paymentService: PaymentService;
 
   beforeAll(async () => {
     // MySQL 컨테이너 실행)
@@ -55,6 +57,7 @@ describe('PaymentFacade Integration Test', () => {
 
     paymentFacade = module.get<PaymentFacadeApp>(PaymentFacadeApp);
     seederService = module.get<SeederService>(SeederService);
+    paymentService = module.get<PaymentService>(PaymentService);
 
     await app.init();
     await seederService.seed();
@@ -85,10 +88,14 @@ describe('PaymentFacade Integration Test', () => {
     // }, 60000);
     it('이미 결제된 좌석에 대한 결제 시도 실패', async () => {
       const userId = 1;
-      const seatId = 1;
-      await paymentFacade.pay({
+      const seatNumber = 1;
+      await paymentService.pay({
         userId,
-        seatId,
+        seatNumber,
+        concertName: '박효신 콘서트',
+        openAt: new Date(new Date().getTime() - 1000 * 60),
+        closeAt: new Date(new Date().getTime() + 1000 * 60 * 60 * 60 * 60),
+        totalAmount: 10000,
       });
 
       // await expect(

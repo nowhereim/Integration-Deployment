@@ -2,6 +2,7 @@ import { INestApplication, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
+import { AppModule } from 'src/app.module';
 import { PaymentFacadeApp } from 'src/application/payment/payment.facade';
 // import { QueueFacadeApp } from 'src/application/queue/queue.facade';
 // import { UserFacadeApp } from 'src/application/user/user.facade';
@@ -44,7 +45,7 @@ describe('PaymentFacade Integration Test', () => {
             }),
           }),
 
-          PaymentModule,
+          AppModule,
         ],
         providers: [SeederService],
       }).compile();

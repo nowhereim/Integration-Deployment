@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { NotFoundException, ForbiddenException } from '@nestjs/common';
+import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { ReservationService } from 'src/domain/reservation/reservation.service';
 import { IReservationRepository } from 'src/domain/reservation/i.reservation.repository';
 import {
@@ -81,7 +81,7 @@ describe('ReservationService', () => {
 
       await expect(
         service.registerReservation(reservationArgs),
-      ).rejects.toThrow(ForbiddenException);
+      ).rejects.toThrow(BadRequestException);
     });
   });
 

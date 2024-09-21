@@ -2,10 +2,10 @@ import { INestApplication, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
-import { AppModule } from 'src/app.module';
 import { PaymentFacadeApp } from 'src/application/payment/payment.facade';
 // import { QueueFacadeApp } from 'src/application/queue/queue.facade';
 import { ReservationFacadeApp } from 'src/application/reservation/reservation.facade';
+import { ConcertModule } from 'src/modules/concert.module';
 // import { UserFacadeApp } from 'src/application/user/user.facade';
 import { PaymentModule } from 'src/modules/payment.module';
 import { ReservationModule } from 'src/modules/reservation.module';
@@ -49,7 +49,9 @@ describe('PaymentFacade Integration Test', () => {
           }),
         }),
 
-        AppModule,
+        PaymentModule,
+        ReservationModule,
+        ConcertModule,
       ],
       providers: [SeederService],
     }).compile();

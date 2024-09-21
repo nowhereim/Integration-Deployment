@@ -185,7 +185,7 @@ describe('ReservationFacade Integration Test', () => {
 
   describe('예약 동시성 테스트', () => {
     it('동일한 좌석에 다수의 요청이 접근할 경우 한 건만 반영되어야한다.', async () => {
-      const seatId = 1;
+      const seatId = 33;
       const concertId = 1;
       const reservationPromises = Array.from({ length: 9 }).map((_, userId) =>
         reservationFacade.registerReservation({

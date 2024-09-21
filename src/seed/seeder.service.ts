@@ -55,22 +55,6 @@ export class SeederService {
         });
       }),
     });
-
-    // const reservation = new ReservationEntity({
-    //   id?: number;
-    //   userId: number;
-    //   concertId: number;
-    //   seatId: number;
-    //   status: SeatReservationStatus;
-    //   price: number;
-    //   concertName: string;
-    //   seatNumber: number;
-    //   openAt: Date;
-    //   closeAt: Date;
-    //   deletedAt?: Date;
-    //   createdAt?: Date;
-    // });
-    //위 를 아래와같이 할 수 있다.
     const reservation = new ReservationEntity({
       userId: 1,
       concertId: 1,

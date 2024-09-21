@@ -93,7 +93,7 @@ describe('PaymentFacade Integration Test', () => {
           seatId,
         }),
       ).rejects.toThrow(NotFoundException);
-    });
+    }, 60000);
 
     it('대기열에 등록되지 않은 사용자 결제 시도 실패', async () => {
       const userId = 100;

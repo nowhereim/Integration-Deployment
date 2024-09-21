@@ -65,8 +65,8 @@ describe('ReservationFacade Integration Test', () => {
 
   describe('예약 생성', () => {
     it('예약 생성 성공', async () => {
-      const userId = 1;
-      const seatId = 1;
+      const userId = 13;
+      const seatId = 13;
       const concertId = 1;
       const reservation = await reservationFacade.registerReservation({
         userId,

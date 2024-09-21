@@ -50,7 +50,7 @@ describe('QueueFacade Integration Test', () => {
 
   afterAll(async () => {
     await app.close();
-    // await redisContainer.stop();
+    await redisContainer.stop();
   });
 
   beforeEach(async () => {

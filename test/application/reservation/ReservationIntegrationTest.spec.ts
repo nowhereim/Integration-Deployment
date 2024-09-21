@@ -40,7 +40,7 @@ describe('ReservationFacade Integration Test', () => {
             database: 'concert',
             entities: [path.join(__dirname, '../../../**/*.entity.ts')],
             synchronize: true,
-            logging: true,
+            // logging: true,
           }),
         }),
 

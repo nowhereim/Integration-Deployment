@@ -5,16 +5,16 @@ import * as path from 'path';
 import { PaymentFacadeApp } from 'src/application/payment/payment.facade';
 // import { QueueFacadeApp } from 'src/application/queue/queue.facade';
 import { ReservationFacadeApp } from 'src/application/reservation/reservation.facade';
-import { UserFacadeApp } from 'src/application/user/user.facade';
+// import { UserFacadeApp } from 'src/application/user/user.facade';
 import { PaymentModule } from 'src/modules/payment.module';
 import { SeederService } from 'src/seed/seeder.service';
-import { GenericContainer, StartedTestContainer } from 'testcontainers';
+import { GenericContainer, StartedTestContainer, Wait } from 'testcontainers';
 
 describe('PaymentFacade Integration Test', () => {
   let app: INestApplication;
   let paymentFacade: PaymentFacadeApp;
   let reservationFacade: ReservationFacadeApp;
-  let userFacadeApp: UserFacadeApp;
+  // let userFacadeApp: UserFacadeApp;
   // let queueFacadeApp: QueueFacadeApp;
   let seederService: SeederService;
   let container: StartedTestContainer;
@@ -27,6 +27,7 @@ describe('PaymentFacade Integration Test', () => {
         MYSQL_DATABASE: 'concert',
       }) // MYSQL_DATABASE 설정 추가
       .withExposedPorts(3306)
+      .withWaitStrategy(Wait.forLogMessage('mysqld: ready for connections'))
       .start();
 
     const port = container.getMappedPort(3306);
@@ -55,7 +56,7 @@ describe('PaymentFacade Integration Test', () => {
 
     paymentFacade = module.get<PaymentFacadeApp>(PaymentFacadeApp);
     reservationFacade = module.get<ReservationFacadeApp>(ReservationFacadeApp);
-    userFacadeApp = module.get<UserFacadeApp>(UserFacadeApp);
+    // userFacadeApp = module.get<UserFacadeApp>(UserFacadeApp);
     seederService = module.get<SeederService>(SeederService);
 
     await app.init();

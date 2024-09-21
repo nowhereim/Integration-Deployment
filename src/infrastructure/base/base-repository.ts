@@ -16,9 +16,4 @@ export abstract class Repository<T extends BaseEntity> {
   getTransactionManager(): EntityManager {
     return this.dataSource.createEntityManager();
   }
-
-  abstract save(
-    args: any,
-    transactionalEntityManager?: EntityManager,
-  ): Promise<any>;
 }

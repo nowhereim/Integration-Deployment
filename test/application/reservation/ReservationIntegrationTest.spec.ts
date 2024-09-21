@@ -60,6 +60,7 @@ describe('ReservationFacade Integration Test', () => {
 
   afterAll(async () => {
     await app.close();
+    await container.stop();
   });
 
   describe('예약 생성', () => {

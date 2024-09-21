@@ -96,7 +96,7 @@ describe('PaymentFacade Integration Test', () => {
         closeAt: expect.any(Date),
         totalAmount: expect.any(Number),
       });
-    });
+    }, 60000);
     it('이미 결제된 좌석에 대한 결제 시도 실패', async () => {
       const userId = 1;
       const seatId = 1;
@@ -119,7 +119,7 @@ describe('PaymentFacade Integration Test', () => {
           seatId,
         }),
       ).rejects.toThrow(NotFoundException);
-    });
+    }, 60000);
   });
 
   // describe('결제 유저 캐시 동시성 테스트', () => {

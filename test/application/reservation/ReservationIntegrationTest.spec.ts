@@ -17,13 +17,13 @@ describe('ReservationFacade Integration Test', () => {
   let seederService: SeederService;
   let container: StartedTestContainer;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     // MySQL 컨테이너 실행)
     container = await new GenericContainer('mysql:8.0')
       .withEnvironment({
         MYSQL_ROOT_PASSWORD: 'root',
         MYSQL_DATABASE: 'concert',
-      }) // MYSQL_DATABASE 설정 추가
+      })
       .withExposedPorts(3306)
       .start();
 
@@ -91,8 +91,8 @@ describe('ReservationFacade Integration Test', () => {
 
     /* 1인 1회 1좌석 결제를 정책으로 잡음. */
     it('이미 좌석을 예약중(결제 전) 인 사용자 예약 실패', async () => {
-      const userId = 1;
-      const seatId = 1;
+      const userId = 2;
+      const seatId = 2;
       const concertId = 1;
       await reservationFacade.registerReservation({
         userId,
@@ -109,8 +109,8 @@ describe('ReservationFacade Integration Test', () => {
     });
 
     it('이미 예약된 좌석 예약 실패', async () => {
-      const userId = 2;
-      const seatId = 1;
+      const userId = 3;
+      const seatId = 7;
       const concertId = 1;
       await reservationFacade.registerReservation({
         userId,
@@ -128,7 +128,7 @@ describe('ReservationFacade Integration Test', () => {
     });
 
     it('존재 하지 않는 좌석 예약 실패', async () => {
-      const userId = 3;
+      const userId = 4;
       const seatId = 100;
       const concertId = 1;
 
@@ -144,11 +144,11 @@ describe('ReservationFacade Integration Test', () => {
 
   describe('예약(좌석 점유) 동시성 테스트', () => {
     it('예약 동시성 테스트', async () => {
-      const seatId = 1;
+      const seatId = 22;
       const concertId = 1;
       const reservationPromises = Array.from({ length: 9 }).map((_, userId) =>
         reservationFacade.registerReservation({
-          userId: userId + 1,
+          userId: userId + 10,
           seatId,
           concertId,
         }),
@@ -189,7 +189,7 @@ describe('ReservationFacade Integration Test', () => {
       const concertId = 1;
       const reservationPromises = Array.from({ length: 9 }).map((_, userId) =>
         reservationFacade.registerReservation({
-          userId: userId + 1,
+          userId: userId + 10,
           seatId,
           concertId,
         }),

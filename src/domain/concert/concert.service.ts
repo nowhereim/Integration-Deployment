@@ -46,7 +46,7 @@ export class ConcertService {
     });
     if (!concert)
       throw notFound('예약 가능한 콘서트가 없습니다.', {
-        cause: `concertId : ${args.concertId} , seatId : ${args.seatId} not found `,
+        cause: `concertId: ${args.concertId} , seatId : ${args.seatId} not found `,
       });
     return concert.getConcertInfoBySeatId({ seatId: args.seatId });
   }
